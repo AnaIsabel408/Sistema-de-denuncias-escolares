@@ -1,0 +1,367 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Opens-Sans, sans-serif;
+}
+
+:root{
+    --color1: #6929A5;
+    --color2: #fff;
+    --color3: #0000009d;
+    --color4: #102a42;
+    --color5: rgba(170, 107, 230, 0.877);
+    --color6: #F1F4F5;
+}
+
+section{
+    padding: 0rem 2rem;
+    margin: 0 auto;
+    max-width: 890px;
+}
+
+header{
+    border-bottom: 1px solid var(--color4);
+}
+
+header nav{
+    background-color: var(--color1);
+}
+
+header .navegacao-cabecalho{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem;
+    color: var(--color2);
+    font-size: 1.1rem;
+}
+
+header .navegacao-cabecalho .navegacao-botao{
+    transition: all 0.3s linear;
+    background-color: transparent;
+    border-color: var(--color1);
+    color: var(--color2);
+    border: none;
+    font-size: 1.5rem;
+}
+
+header .navegacao-cabecalho .navegacao-botao:hover{
+    transform: rotate(90deg);
+    color: var(--color4);
+}
+
+ul{
+    list-style-type: none;
+}
+
+header .navegacao-links li{
+    padding: 0.5rem 0;
+    transition: all 0.3s linear;
+}
+
+header .navegacao-links a{
+    text-decoration: none;
+    padding: 1rem;
+    color: var(--color2);
+    font-weight: lighter;
+}
+
+.navegacao-links li:hover{
+    background-color: var(--color5);
+    cursor: pointer;
+    padding-left: 1.5rem;
+}
+
+.navegacao-links{
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s linear;
+}
+
+.mostrar-link{
+    height: 7rem;
+}
+
+body{
+    background-color: var(--color6);
+}
+
+body .caixa-principal{
+    background-color: var(--color1);
+    color: var(--color2);
+    min-height: 99vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+}
+
+body .caixa-principal .welcome{
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+body .caixa-principal .welcome .wel-texto h3{
+    font-size: 3.5rem;
+}
+
+body .caixa-principal .welcome .p{
+    display: inline-flex;
+    background-color: var(--color2);
+    color: var(--color3);
+}
+
+body .caixa-principal .welcome .p span {
+    display: flex;
+    gap: 8px;
+}
+
+
+body .caixa-principal .foto{
+    background-color: var(--color5);
+    width: 80%;
+    height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    padding: 10px;
+}
+
+body .caixa-principal .foto img{
+    width: 120%;
+    height: 100%;
+}
+
+.seg{
+    background-color: var(--color6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body .caixa-secundaria{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+    gap: 10px;
+}
+
+
+body .caixa-secundaria section{
+    width: 285px;
+    height: 130px;
+    padding: 2px;
+    background-color: var(--color2);
+}
+
+body .caixa-secundaria section span{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+}
+
+body .caixa-secundaria section img{
+    width: 3rem;
+}
+
+body .caixa-secundaria section p{
+    font-weight: lighter;
+    font-size: 12px;
+    padding-left: 3.7rem;
+    color: var(--color3);
+}
+
+body .paralax{
+    background-image: url("../files/pexels-nietjuhart-934061.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 120px;
+}
+
+body .caixa-terciaria{
+    /* padding: 3rem 1rem; */
+    background-color: var(--color6);
+    padding-bottom: 12rem;
+}
+
+body .caixa-terciaria h3{
+   margin-bottom: 3rem;
+   padding-top: 3rem;
+}
+
+body .caixa-terciaria .produtos{
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    gap: 2rem;
+}
+
+body .caixa-terciaria .produtos article .produto-card{
+    background-color: #fff;
+    height: 224px;
+    width: 219px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    position: relative;
+}
+
+body .caixa-terciaria .produtos article .produto-card .favorito-btn{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 34px;
+    border: none;
+    background-color: #f1f4f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+body .caixa-terciaria .produtos article h4{
+    font-weight: 500;
+    padding: 4px 0;
+}
+
+body .caixa-terciaria .produtos article .add-carrinho{
+    padding: 10px ;
+    width: 120px;
+    border-radius: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid var(--color3);
+    background-color: transparent;
+    margin-top: 1rem;
+}
+
+body .caixa-terciaria .produtos article .add-carrinho:hover{
+    cursor: pointer;
+}
+
+footer{
+    background-color: var(--color6);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    
+}
+
+footer section{
+    border-top: 1px solid var(--color3);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+    font-size: 15px;
+}
+footer .text-footer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 226px;
+    height: 250;
+}
+
+footer .text-footer p{
+    text-align: justify;
+    color: var(--color3);
+}
+
+.input-footer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 226px;
+    height: 250;
+}
+
+.input-footer div{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.input-footer div input{
+    padding: 10px;
+    background-color: var(--color2);
+    border: none;
+}
+
+#msg{
+    height: 40px;
+}
+
+#enviar-btn{
+    width: 100px;
+    background-color: var(--color1);
+    color: var(--color2);
+}
+
+footer section .servicos-footer h3{
+    margin-bottom: 1rem;
+}
+
+footer section .servicos-footer div{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--color3);
+}
+
+footer section .servicos-footer img{
+    width: 1.2rem;
+}
+
+
+footer section .contacto-footer h3{
+    margin-bottom: 1rem;
+}
+
+footer section .contacto-footer div{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+footer section .contacto-footer img{
+    width: 1.2rem;
+}
+
+footer section .contacto-footer a{
+    text-decoration: none;
+    color: var(--color3);
+}
+
+
+.info-dev{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: var(--color3);
+    border-top: 1px solid var(--color3);
+}
+
+.info-dev p{
+    padding-top: 10px;
+}
+
