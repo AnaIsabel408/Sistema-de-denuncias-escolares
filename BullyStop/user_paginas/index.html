@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="divisor">
+        <aside>
+            <h1>BullyStop</h1>
+            <div class="links">
+                <a href="../user_paginas/index.html">Início</a>
+                <a href="../user_paginas/denuncias.html">Denúncias</a>
+                <a href="../user_paginas/centro.html">Centro de ajuda</a>
+            </div>
+            <p><a href="../user_paginas/configuracoes.html">Configurações</a></p>
+        </aside>
+        
+        <div class="page">
+            <h1>Olá, <span id="NomeUser">Ana</span>!</h1>
+            
+            <div id="frase">
+                <p>Não tenha medo de pedir ajuda. Estamos aqui por você.</p>
+            </div>
+            
+            <div class="container2">
+                <div class="registro_denuncias">
+                    <h2>Minhas Denúncias</h2>
+                    <div class="denuncia-item">
+                        <span>Bullying verbal</span>
+                    </div>
+                    <div class="denuncia-item">
+                        <span>Cyberbullying</span>
+                    </div>
+                    <div class="denuncia-item">
+                        <span>Exclusão social</span>
+                    </div>
+                </div>
+                <div class="denuncias_feitas">
+                    <span id="numero_denuncias">0</span>
+                    <p id="nd">Minhas denúncias feitas</p>
+                </div>
+            </div>
+            
+            <div class="container3">
+                <div class="recursos-card">
+                    <h2>Recursos de Ajuda</h2>
+                    <div class="recurso-item">
+                        <div>
+                            <strong>Linha de Apoio</strong>
+                            <p style="margin: 0; font-size: 14px; color: #666;">Disponível 24/7</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recursos-card">
+                    <h2>Você não está sozinho(a)</h2>
+                    <div style="padding: 15px;">
+                        <p style="font-size: 15px; margin-bottom: 18px; color: #666; line-height: 1.6;">
+                            Estamos aqui para te apoiar em cada passo. Suas denúncias são tratadas com seriedade e confidencialidade.
+                        </p>
+                        <p style="font-size: 15px; margin-bottom: 18px; color: #666; line-height: 1.6;">
+                            <strong style="color: var(--cor-destaque);">Você foi corajoso(a)</strong> ao buscar ajuda. Isso já é um grande passo!
+                        </p>
+                        <p style="font-size: 14px; margin-top: 25px; padding: 15px; background-color: #f8f9fc; border-radius: 8px; color: var(--cor-destaque); text-align: center;">
+                            <strong>Estamos trabalhando para resolver suas denúncias</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const frases_aleatorias = [
+        "Não tenha medo de pedir ajuda. Estamos aqui por você.",
+        "Ser diferente é seu poder, não sua fraqueza",
+        "Você não está sozinho. Fale, procure ajuda",
+        "O que fizeram com você não define quem você é"
+    ];
+    const frase = document.querySelector('#frase p');
+    let indice = 0;
+    setInterval(() => {
+        indice+= 1 % frases_aleatorias.length;
+        
+    setTimeout(() =>{
+        frase.textContent = frases_aleatorias[indice];
+    }, 300)
+    },2000)
+</script>
+</html>
