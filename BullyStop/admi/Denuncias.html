@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./denuncias.css">
+    <title>BullyStop</title>
+</head>
+<body>
+    <div class="divisor">
+        <aside>
+            <div>
+                <h1>BullyStop</h1>
+            </div>
+            <div class="links">
+                <a href="./admi.html">Inicio</a>
+                <a href="./Denuncias.html" class="active">Denúncias</a>
+                <a href="./usuarios.html">Usuários</a>
+            </div>
+        </aside>
+        
+        <div class="page">
+            <div class="page-header">
+                <h1>Gerenciar Denúncias</h1>
+            </div>
+            <div class="filters-section">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Buscar por ID, nome, escola...">
+                    <button class="btn btn-primary">Buscar</button>
+                </div>
+
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select>
+                            <option value="">Todos</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="analisando">Em Análise</option>
+                            <option value="resolvido">Resolvido</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Tipo de Bullying</label>
+                        <select>
+                            <option value="">Todos</option>
+                            <option value="verbal">Verbal</option>
+                            <option value="fisico">Físico</option>
+                            <option value="cyber">Cyberbullying</option>
+                            <option value="psicologico">Psicológico</option>
+                            <option value="social">Social</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Prioridade</label>
+                        <select>
+                            <option value="">Todas</option>
+                            <option value="alta">Alta</option>
+                            <option value="media">Média</option>
+                            <option value="baixa">Baixa</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Período</label>
+                        <select>
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Esta Semana</option>
+                            <option value="mes">Este Mês</option>
+                            <option value="todos">Todos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-tags">
+                    <div class="filter-tag active">Todas (38)</div>
+                    <div class="filter-tag">Urgentes (5)</div>
+                    <div class="filter-tag">Novas Hoje (8)</div>
+                    <div class="filter-tag">Aguardando Ação (12)</div>
+                </div>
+            </div>
+            <div class="denuncias-table">
+                <div class="table-header">
+                    <h2>Lista de Denúncias</h2>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Denúncia</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th>Prioridade</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="denuncia-id">#1247</span></td>
+                            <td>
+                                <div class="denuncia-titulo">Cyberbullying - Instagram</div>
+                                <div class="denuncia-meta">👤 Ana Silva -- Escola Est. São Paulo</div>
+                            </td>
+                            <td>Cyberbullying</td>
+                            <td><span class="status-badge status-urgente">URGENTE</span></td>
+                            <td><span class="prioridade-badge prioridade-alta">ALTA</span></td>
+                            <td>12/12/2025<br><span style="font-size: 11px; color: #999;">14:15</span></td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="btn-action btn-view">Ver</button>
+                                    <button class="btn-action btn-edit" >Editar</button>
+                                </div>
+                            </td>
+                        </tr>
+                       
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes da Denúncia -->
+    <div id="modalDenuncia" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔍 Detalhes da Denúncia #1247</h2>
+                <span class="close" onclick="fecharModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>Informações Gerais</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">ID DA DENÚNCIA</div>
+                            <div class="detail-value">#1247</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">STATUS</div>
+                            <div class="detail-value"><span class="status-badge status-urgente">URGENTE</span></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">PRIORIDADE</div>
+                            <div class="detail-value"><span class="prioridade-badge prioridade-alta">ALTA</span></div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">DATA</div>
+                            <div class="detail-value">12/12/2025 14:15</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Dados da Vítima</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">NOME</div>
+                            <div class="detail-value">Ana Silva</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ESCOLA</div>
+                            <div class="detail-value">Escola Estadual São Paulo</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">TURMA</div>
+                            <div class="detail-value">9º Ano B</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">CONTATO</div>
+                            <div class="detail-value">ana.silva@email.com</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Detalhes do Incidente</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">TIPO DE BULLYING</div>
+                            <div class="detail-value">Cyberbullying</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">LOCAL</div>
+                            <div class="detail-value">Instagram</div>
+                        </div>
+                        <div class="detail-item">
+</body>
+</html>
