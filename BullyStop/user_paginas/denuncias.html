@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BullyStop - Minhas Denúncias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #2b58a1;
+            --cor-hover: #6875a08c;
+            --cor-destaque: #5b6fa3;
+            --cor-texto: #333;
+            --cor-fundo: #f5f7fa;
+        }
+
+        html {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            overflow-x: hidden;
+        }
+
+        .divisor {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        aside {
+            display: flex;
+            background-color: var(--cor-primaria);
+            width: 220px;
+            padding: 20px;
+            color: white;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        aside h1 {
+            font-size: 26px;
+            margin-bottom: 40px;
+            text-align: center;
+            padding: 15px;
+            margin-top: 0;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .links a.active {
+            background-color: rgba(255,255,255,0.25);
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .links a:hover:before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        aside > p a {
+            text-decoration: none;
+            color: white;
+            padding: 12px 20px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        aside > p a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .page {
+            display: flex;
+            background-color: var(--cor-fundo);
+            flex-grow: 1;
+            flex-direction: column;
+            padding: 40px 50px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            color: var(--cor-texto);
+        }
+
+        .btn-nova {
+            padding: 15px 30px;
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(91, 111, 163, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-nova:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(91, 111, 163, 0.5);
+        }
+
+        .filtros {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 10px 20px;
+            background-color: white;
+            border: 2px solid var(--cor-primaria);
+            border-radius: 25px;
+            color: var(--cor-destaque);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background-color: var(--cor-primaria);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .denuncias-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .denuncia-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--cor-primaria);
+        }
+
+        .denuncia-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .denuncia-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .denuncia-titulo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--cor-destaque);
+        }
+
+        .denuncia-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-pendente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-analisando {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-resolvido {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-rejeitado {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .denuncia-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fc;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-valor {
+            font-size: 15px;
+            color: var(--cor-texto);
+            font-weight: 500;
+        }
+
+        .denuncia-descricao {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .denuncia-acoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-acao {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ver {
+            background-color: var(--cor-primaria);
+            color: white;
+        }
+
+        .btn-ver:hover {
+            background-color: var(--cor-destaque);
+        }
+
+        .btn-cancelar {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: var(--cor-destaque);
+            font-size: 24px;
+        }
+
+        .close {
+            font-size: 32px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--cor-destaque);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(91, 111, 163, 0.5);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .divisor {
+                flex-direction: column;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="divisor">
+        <aside>
+            <h1> BullyStop</h1>
+            <div class="links">
+                <a href="index.html">Início</a>
+                <a href="denuncias.html" class="active">Denúncias</a>
+                <a href="centro.html">Centro de ajuda</a>
+            </div>
+            <p><a href="configuracoes.html"> Configurações</a></p>
+        </aside>
+        
+        <div class="page">
+            <div class="page-header">
+                <h1>Minhas Denúncias</h1>
+                <button class="btn-nova" onclick="abrirModal()"> Nova Denúncia</button>
+            </div>
+
+            <div class="filtros">
+                <button class="filtro-btn ativo" onclick="filtrar('todas')">Todas</button>
+                <button class="filtro-btn" onclick="filtrar('pendente')">Pendentes</button>
+                <button class="filtro-btn" onclick="filtrar('analisando')">Em Análise</button>
+                <button class="filtro-btn" onclick="filtrar('resolvido')">Resolvidas</button>
+            </div>
+
+            <div class="denuncias-lista" id="denunciasLista">
+                <div class="denuncia-card" data-status="analisando">
+                    <div class="denuncia-header">
+                        <div class="denuncia-titulo">Bullying Verbal - Sala 204</div>
+                        <span class="denuncia-status status-analisando">Em análise</span>
+                    </div>
+                    <div class="denuncia-info">
+                        <div class="info-item">
+                            <span class="info-label">DATA</span>
+                            <span class="info-valor">05/12/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TIPO</span>
+                            <span class="info-valor">Verbal</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">LOCAL</span>
+                            <span class="info-valor">Sala 204</span>
+                        </div>
+                    </div>
+                    <div class="denuncia-descricao">
+                        Colegas têm feito comentários ofensivos repetidamente durante as aulas. Me sinto constrangida e com medo de ir à escola.
+                    </div>
+                    <div class="denuncia-acoes">
+                        <button class="btn-acao btn-ver">Ver detalhes</button>
+                    </div>
+                </div>
+
+                <div class="denuncia-card" data-status="pendente">
+                    <div class="denuncia-header">
+                        <div class="denuncia-titulo">Cyberbullying - Redes Sociais</div>
+                        <span class="denuncia-status status-pendente">Pendente</span>
+                    </div>
+                    <div class="denuncia-info">
+                        <div class="info-item">
+                            <span class="info-label">DATA</span>
+                            <span class="info-valor">07/12/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TIPO</span>
+                            <span class="info-valor">Cyberbullying</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">LOCAL</span>
+                            <span class="info-valor">Instagram</span>
+                        </div>
+                    </div>
+                    <div class="denuncia-descricao">
+                        Estou recebendo mensagens ofensivas e ameaçadoras através das redes sociais. Já bloqueei alguns perfis, mas continuam criando contas novas.
+                    </div>
+                    <div class="denuncia-acoes">
+                        <button class="btn-acao btn-ver">Ver detalhes</button>
+                        <button class="btn-acao btn-cancelar">Cancelar denúncia</button>
+                    </div>
+                </div>
+
+                <div class="denuncia-card" data-status="analisando">
+                    <div class="denuncia-header">
+                        <div class="denuncia-titulo">Exclusão Social - Turma B</div>
+                        <span class="denuncia-status status-analisando">Em análise</span>
+                    </div>
+                    <div class="denuncia-info">
+                        <div class="info-item">
+                            <span class="info-label">DATA</span>
+                            <span class="info-valor">03/12/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TIPO</span>
+                            <span class="info-valor">Social</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">LOCAL</span>
+                            <span class="info-valor">Refeitório</span>
+                        </div>
+                    </div>
+                    <div class="denuncia-descricao">
+                        Grupo de colegas me exclui propositalmente de atividades e conversas. Me sinto isolada e sozinha durante o intervalo.
+                    </div>
+                    <div class="denuncia-acoes">
+                        <button class="btn-acao btn-ver">Ver detalhes</button>
+                    </div>
+                </div>
+
+                <div class="denuncia-card" data-status="resolvido">
+                    <div class="denuncia-header">
+                        <div class="denuncia-titulo">Bullying Físico - Corredor</div>
+                        <span class="denuncia-status status-resolvido">Resolvido</span>
+                    </div>
+                    <div class="denuncia-info">
+                        <div class="info-item">
+                            <span class="info-label">DATA</span>
+                            <span class="info-valor">28/11/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">TIPO</span>
+                            <span class="info-valor">Físico</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">LOCAL</span>
+                            <span class="info-valor">Corredor 2º andar</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">RESOLVIDO EM</span>
+                            <span class="info-valor">02/12/2025</span>
+                        </div>
+                    </div>
+                    <div class="denuncia-descricao">
+                        Empurrões e agressões físicas no corredor. A situação foi resolvida com intervenção da coordenação e os responsáveis foram advertidos.
+                    </div>
+                    <div class="denuncia-acoes">
+                        <button class="btn-acao btn-ver">Ver resolução</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Denúncia -->
+    <div id="modalDenuncia" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Denúncia</h2>
+                <span class="close" onclick="fecharModal()">&times;</span>
+            </div>
+            <form id="formDenuncia" onsubmit="enviarDenuncia(event)">
+                <div class="form-group">
+                    <label>Tipo de Bullying *</label>
+                    <select required>
+                        <option value="">Selecione...</option>
+                        <option value="verbal">Verbal (xingamentos, apelidos)</option>
+                        <option value="fisico">Físico (agressões, empurrões)</option>
+                        <option value="psicologico">Psicológico (intimidação, humilhação)</option>
+                        <option value="cyber">Cyberbullying (internet, redes sociais)</option>
+                        <option value="social">Social (exclusão, isolamento)</option>
+                        <option value="sexual">Assédio sexual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Local do Incidente *</label>
+                    <input type="text" placeholder="Ex: Sala 204, Refeitório, Corredor..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Data do Incidente *</label>
+                    <input type="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição do Ocorrido *</label>
+                    <textarea placeholder="Descreva o que aconteceu com o máximo de detalhes possível. Sua denúncia é confidencial." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Há testemunhas?</label>
+                    <select>
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao_sei">Não sei</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="anonimo">
+                    <label for="anonimo" style="margin: 0; font-weight: normal;">Enviar denúncia de forma anônima</label>
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar Denúncia</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal() {
+            document.getElementById('modalDenuncia').style.display = 'block';
+        }
+
+        function fecharModal() {
+            document.getElementById('modalDenuncia').style.display = 'none';
+            document.getElementById('formDenuncia').reset();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalDenuncia');
+            if (event.target == modal) {
+                fecharModal();
+            }
+        }
+
+        function enviarDenuncia(event) {
+            event.preventDefault();
+            alert('Denúncia enviada com sucesso! Nossa equipe entrará em contato em breve.');
+            fecharModal();
+        }
+
+        function filtrar(status) {
+            const cards = document.querySelectorAll('.denuncia-card');
+            const botoes = document.querySelectorAll('.filtro-btn');
+            
+            botoes.forEach(btn => btn.classList.remove('ativo'));
+            event.target.classList.add('ativo');
+
+            cards.forEach(card => {
+                if (status === 'todas') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.dataset.status === status) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

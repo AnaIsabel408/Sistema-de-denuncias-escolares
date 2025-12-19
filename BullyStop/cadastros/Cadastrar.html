@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Cadastrar.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    <form id="formcadastro">
+        <h1>Cadastro</h1>
+
+        <div class="items">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" placeholder="Insira aqui o nome" name="nome" required>
+        </div>
+
+        <div class="items">
+            <label for="idade">Idade:</label>
+            <input type="number" placeholder="Insira aqui a idade" name="idade" required>
+        </div>
+
+        <div class="items">
+            <label for="instituicao">Instituição:</label>
+            <select name="instituicao_id" id="instituicao_select">
+                <option value="">Selecione uma instituição</option>
+            </select>
+        </div>
+
+        <div class="items">
+            <label for="codigo_estudantil">Nº de identificação:</label>
+            <input type="number" placeholder="Insira código estudantil" name="codigo_estudantil" required>
+        </div>
+
+        <div class="items">
+            <label for="senha">Senha:</label>
+            <input type="password" placeholder="Crie uma senha" name="senha" required>
+        </div>
+
+        <div id="sei">
+            <button type="submit">Cadastrar</button>
+            <p>Caso já esteja cadastrado <a href="./login.html">Entre</a></p>
+        </div>
+    </form>
+
+<script>
+// Carregar instituições
+fetch('./php/instituicoes.php')
+    .then(res => res.json())
+    .then(data => {
+        console.log('Instituições carregadas:', data); // DEBUG
+        const select = document.getElementById('instituicao_select');
+        data.forEach(inst => {
+            const option = document.createElement('option');
+            option.value = inst.id;
+            option.textContent = inst.nome;
+            select.appendChild(option);
+        });
+    })
+    .catch(err => console.error('Erro ao carregar instituições:', err));
+
+// Enviar cadastro
+const form = document.getElementById("formcadastro");
+form.addEventListener("submit", function (e){
+    e.preventDefault();
+    const dados = new FormData(form);
+    
+    // DEBUG: Mostrar dados que estão sendo enviados
+    console.log('Dados do formulário:');
+    for (let [key, value] of dados.entries()) {
+        console.log(key + ': ' + value);
+    }
+
+    fetch("./php/cadastrar.php", {
+        method: "POST",
+        body: dados
+    })
+    .then(res => {
+        console.log('Status da resposta:', res.status); // DEBUG
+        return res.text(); // Usar text() primeiro para ver a resposta bruta
+    })
+    .then(text => {
+        console.log('Resposta bruta:', text); // DEBUG
+        try {
+            const data = JSON.parse(text);
+            console.log('Resposta parseada:', data); // DEBUG
+            
+            if(data.success){
+                alert(data.mensagem);
+                window.location.href = "../user_paginas/index.html"; 
+            } else {
+                alert("Erro: " + data.mensagem);
+            }
+        } catch(e) {
+            console.error('Erro ao parsear JSON:', e);
+            alert('Erro na resposta do servidor: ' + text);
+        }
+    })
+    .catch(err => {
+        console.error('Erro na requisição:', err); // DEBUG
+        alert('Erro ao enviar dados: ' + err.message);
+    }); 
+});
+</script>
+</body>
+</html>

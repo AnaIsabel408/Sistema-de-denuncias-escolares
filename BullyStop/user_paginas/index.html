@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BullyStop - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #2b58a1;
+            --cor-hover: #1717188c;
+            --cor-destaque: #5b6fa3;
+            --cor-texto: #1f1e1e;
+            --cor-fundo: #f5f7fa;
+        }
+
+        html {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            overflow-x: hidden;
+        }
+
+        .divisor {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        aside {
+            display: flex;
+            background-color: var(--cor-primaria);
+            width: 220px;
+            padding: 20px;
+            color: white;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        aside h1 {
+            font-size: 26px;
+            margin-bottom: 40px;
+            text-align: center;
+            padding: 15px;
+            margin-top: 0;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .links a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .links a:hover:before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        aside > p a {
+            text-decoration: none;
+            color: white;
+            padding: 12px 20px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        aside > p a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .page {
+            display: flex;
+            background-color: var(--cor-fundo);
+            flex-grow: 1;
+            flex-direction: column;
+            padding: 40px 50px;
+        }
+
+        .page > h1 {
+            font-size: 32px;
+            color: var(--cor-texto);
+            margin-bottom: 10px;
+        }
+
+        #NomeUser {
+            color: var(--cor-primaria);
+            font-weight: bold;
+        }
+
+        #frase {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            height: 80px;
+            background-color: var(--cor-primaria);
+            margin: 25px 0;
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(145, 167, 240, 0.3);
+            padding: 20px;
+        }
+
+        #frase p {
+            font-size: 18px;
+            text-align: center;
+            margin: 0;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .container2 {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .registro_denuncias {
+            height: 280px;
+            flex: 1;
+            min-width: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .registro_denuncias h2 {
+            color: var(--cor-destaque);
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 3px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .denuncia-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: #f8f9fc;
+            border-left: 4px solid var(--cor-primaria);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .denuncia-item:hover {
+            background-color: #eef1f8;
+            transform: translateX(5px);
+        }
+
+        .denuncia-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pendente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-analisando {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .denuncias_feitas {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 280px;
+            width: 350px;
+            background-color: var(--cor-primaria);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            color: white;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .denuncias_feitas::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        #numero_denuncias {
+            font-size: 72px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        #nd {
+            font-size: 18px;
+            text-align: center;
+            font-weight: 500;
+            margin: 0;
+            z-index: 1;
+        }
+
+        .container3 {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .recursos-card {
+            flex: 1;
+            min-width: 300px;
+            height: 280px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recursos-card h2 {
+            color: var(--cor-destaque);
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 3px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .recurso-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background-color: #f8f9fc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recurso-item:hover {
+            background-color: var(--cor-primaria);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+
+
+        @media (max-width: 768px) {
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .divisor {
+                flex-direction: column;
+            }
+
+            .container2 {
+                flex-direction: column;
+            }
+
+            .registro_denuncias,
+            .denuncias_feitas {
+                min-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="divisor">
+        <aside>
+            <h1>BullyStop</h1>
+            <div class="links">
+                <a href="../user_paginas/index.html">Início</a>
+                <a href="../user_paginas/denuncias.html">Denúncias</a>
+                <a href="../user_paginas/centro.html">Centro de ajuda</a>
+            </div>
+            <p><a href="../user_paginas/configuracoes.html">Sair</a></p>
+        </aside>
+        
+        <div class="page">
+            <h1>Olá, <span id="NomeUser">Ana</span>!</h1>
+            
+            <div id="frase">
+                <p>"Juntos somos mais fortes. Sua voz faz a diferença."</p>
+            </div>
+            
+            <div class="container2">
+                <div class="registro_denuncias">
+                    <h2>Denúncias Recentes</h2>
+                    <div class="denuncia-item">
+                        <span>Bullying verbal - Sala 204</span>
+                        <span class="denuncia-status status-analisando">Em análise</span>
+                    </div>
+                    <div class="denuncia-item">
+                        <span>Cyberbullying - Redes sociais</span>
+                        <span class="denuncia-status status-pendente">Pendente</span>
+                    </div>
+                    <div class="denuncia-item">
+                        <span>Exclusão social - Turma B</span>
+                        <span class="denuncia-status status-analisando">Em análise</span>
+                    </div>
+                </div>
+                
+                <div class="denuncias_feitas">
+                    <span id="numero_denuncias">3</span>
+                    <p id="nd">Denúncias registradas</p>
+                </div>
+            </div>
+            
+            <div class="container3">
+                <div class="recursos-card">
+                    <h2>Recursos de Ajuda</h2>
+                    <div class="recurso-item">
+                        <div>
+                            <strong>Linha de Apoio</strong>
+                            <p style="margin: 0; font-size: 14px; color: #666;">Disponível 24/7</p>
+                        </div>
+                    </div>
+                    <div class="recurso-item">
+                        <div>
+                            <strong>Material Educativo</strong>
+                            <p style="margin: 0; font-size: 14px; color: #666;">Aprenda sobre prevenção</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recursos-card">
+                    <h2>Você não está sozinho(a)</h2>
+                    <div style="padding: 15px;">
+                        <p style="font-size: 15px; margin-bottom: 18px; color: #666; line-height: 1.6;">
+                            Estamos aqui para te apoiar em cada passo. Suas denúncias são tratadas com seriedade e confidencialidade.
+                        </p>
+                        <p style="font-size: 15px; margin-bottom: 18px; color: #666; line-height: 1.6;">
+                            <strong style="color: var(--cor-destaque);">Você foi corajoso(a)</strong> ao buscar ajuda. Isso já é um grande passo!
+                        </p>
+                        <p style="font-size: 14px; margin-top: 25px; padding: 15px; background-color: #f8f9fc; border-radius: 8px; color: var(--cor-destaque); text-align: center;">
+                            <strong>Estamos trabalhando para resolver suas denúncias</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const frases = [
+            "Juntos somos mais fortes. Sua voz faz a diferença.",
+            "Não tenha medo de pedir ajuda. Estamos aqui por você.",
+            "Cada denúncia é um passo em direção a um ambiente mais seguro.",
+            "Sua coragem inspira mudanças. Continue lutando!",
+            "Respeito e empatia constroem uma comunidade melhor."
+        ];
+        
+        const fraseElemento = document.querySelector('#frase p');
+        let indice = 0;
+        
+        setInterval(() => {
+            indice = (indice + 1) % frases.length;
+            fraseElemento.style.opacity = '0';
+            setTimeout(() => {
+                fraseElemento.textContent = frases[indice];
+                fraseElemento.style.opacity = '1';
+            }, 300);
+        }, 5000);
+        
+        fraseElemento.style.transition = 'opacity 0.3s ease';
+    </script>
+</body>
+</html>
